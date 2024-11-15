@@ -1,19 +1,25 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './styles/global.css';
-
-//Import pages (to be created in Step 3)
+import { BrowserRouter as Router, Routes, Route,Link } from 'react-router-dom';
+import TestComponent from './TestComponent';
+// Import pages (add placeholders if they’re not created yet)
 import Dashboard from './pages/Dashboard';
 import Notifications from './pages/Notifications';
+import TaskDetails from './pages/TaskDetails';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Switch>
-          <Route exact path="/" component={Dashboard} />
-          <Route path="/notifications" component={Notifications} />
-        </Switch>
+        <nav>
+          <Link to="/">Dashboard</Link> | 
+          <Link to="/notifications">Notifications</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/task/:id" element={<TaskDetails/>} />
+          {/* Add more routes as needed */}
+        </Routes>
       </div>
     </Router>
   );

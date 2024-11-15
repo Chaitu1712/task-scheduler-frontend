@@ -3,6 +3,9 @@ import api from './api';
 
 export const getAllTasks = async () => {
   const response = await api.get('/tasks');
+  setTimeout(() => {
+    
+  }, 1000);
   return response.data;
 };
 
