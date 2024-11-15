@@ -10,10 +10,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <nav>
-          <Link to="/">Dashboard</Link> | 
-          <Link to="/notifications">Notifications</Link>
-        </nav>
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/notifications" element={<Notifications />} />
