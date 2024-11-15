@@ -1,15 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route,Link } from 'react-router-dom';
 import TestComponent from './TestComponent';
-// Import pages (add placeholders if they’re not created yet)
 import Dashboard from './pages/Dashboard';
 import Notifications from './pages/Notifications';
 import TaskDetails from './pages/TaskDetails';
+import Header from './components/Header/Header';
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <div>
+          <Header/>
+        </div>
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/notifications" element={<Notifications />} />
