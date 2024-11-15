@@ -1,5 +1,8 @@
 import React from 'react';
+import './App.css';
 import { BrowserRouter as Router, Routes, Route,Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import TestComponent from './TestComponent';
 import Dashboard from './pages/Dashboard';
 import Notifications from './pages/Notifications';
@@ -10,14 +13,14 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <div>
+        <div className='header-div'>
           <Header/>
         </div>
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/notifications" element={<Notifications />} />
-          <Route path="/task/:id" element={<TaskDetails/>} />
-          {/* Add more routes as needed */}
+          <Route path="/tasks/:id" element={<TaskDetails/>} />
         </Routes>
       </div>
     </Router>

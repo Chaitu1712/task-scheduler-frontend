@@ -3,9 +3,6 @@ import api from './api';
 
 export const getAllTasks = async () => {
   const response = await api.get('/tasks');
-  setTimeout(() => {
-    
-  }, 1000);
   return response.data;
 };
 
@@ -34,3 +31,8 @@ export const markTaskAsComplete = async (id) => {
   const response = await api.patch(`/tasks/${id}/complete`);
   return response.data;
 };
+
+export const updateTaskStatus = async (id, status) => {
+  const response = await api.patch(`/tasks/${id}/status`, { status });
+  return response.data;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Card.css';
 
-const Card = ({ title, description, footer }) => {
+const Card = ({ title, description, priority, footer }) => {
   return (
     <div className="card">
       <div className="card-header">
@@ -10,7 +10,14 @@ const Card = ({ title, description, footer }) => {
       <div className="card-body">
         <p>{description}</p>
       </div>
-      {footer && <div className="card-footer">{footer}</div>}
+      <div className='footer'>
+      <div className="status">
+        {priority && <p className="status">Priority: {priority}</p>}
+      </div>
+      <div className='card-footer'>
+        {footer && <div>{footer}</div>}
+        </div>
+      </div>
     </div>
   );
 };

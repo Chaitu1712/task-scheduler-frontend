@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'QuickSand-Bold';
     src: url('fonts/Quicksand-VariableFont_wght.ttf') format('truetype');
-    font-weight: 500;
+    font-weight: 700;
     font-style:normal;
 }
 
@@ -10,6 +10,18 @@
     src: url('fonts/circular-std-medium-500.ttf') format('truetype');
     font-weight: normal;
     font-style:normal;
+}
+
+@font-face {
+    font-family: 'Poppins-SemiBold';
+    src: url('fonts/Poppins-SemiBold.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: normal;
 }
 
 body{

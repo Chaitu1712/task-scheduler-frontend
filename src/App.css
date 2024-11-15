@@ -1,0 +1,17 @@
+h2{
+    font-size: 2em;
+    margin: 1px;
+    padding: 10px 10px;
+    font-family: 'Quicksand-Bold', sans-serif;
+}
+h3{
+    font-size: 1.5em;
+    margin: 1px;
+    padding: 10px 10px;
+    font-family: 'Poppins-SemiBold', sans-serif;
+    font-weight: normal;
+}
+.App button{
+   float:inline-end;
+    margin: 5px 10px 0px 0px;
+}
