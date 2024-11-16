@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from '../components/Button/Button';
-import { getTaskById, deleteTask, updateTaskStatus } from '../services/taskService';
+import { getTaskById, deleteTask, updateTaskStatus,updateTask } from '../services/taskService';
 import './TaskDetails.css'
 import { toast } from 'react-toastify';
-
+import UpdateTaskModal from '../components/Modal/UpdateTaskModal';
 const TaskDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [task, setTask] = useState(null);
   const [status, setStatus] = useState(''); // Initialize as an empty string
-
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     const fetchTask = async () => {
       try {
@@ -60,12 +60,25 @@ const TaskDetails = () => {
     }
   };
 
+  const handleTaskUpdate = async (updatedTask) => {
+    try {
+      await updateTask(id, updatedTask);
+      setTask(updatedTask); // Update the local state
+      setShowModal(false); // Close the modal
+      toast.success('Task updated successfully!');
+      navigate('/'); // Redirect if necessary
+    } catch (error) {
+      console.error('Error updating task:', error);
+    }
+  };
+
   if (!task){
       return <p>Loading...</p>;
 
     }
 
   return (
+    <div>
     <div className='card'>
       <h2>Task Details</h2>
       <div className='card-header'><h3>{task.title}</h3></div>
@@ -83,10 +96,14 @@ const TaskDetails = () => {
           <p>Priority:{task.priority}</p>
         </div>
         <div className='card-footer'>
-          <Button text="Edit Task" variant="secondary" />
+          <Button text="Edit Task" variant="secondary" onClick={() => setShowModal(true)} />
           <Button text="Delete Task" variant="danger" onClick={handleDelete} />
         </div>
       </div>
+    </div>
+    {showModal && (<UpdateTaskModal task={task}  onClose={() => setShowModal(false)}  onUpdate={handleTaskUpdate}
+        />
+      )}
     </div>
   );
 };

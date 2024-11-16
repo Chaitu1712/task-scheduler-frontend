@@ -17,9 +17,6 @@ const Dashboard = () => {
     };
     fetchTasks();
   }, []);
-  const openTask = (id) => {
-    navigate(`/task/${id}`);
-  }
   const renderTasks = (status) => {
     return tasks
       .filter((task) => task.status === status)
