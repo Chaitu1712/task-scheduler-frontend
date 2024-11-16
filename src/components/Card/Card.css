@@ -5,11 +5,10 @@
     margin: 10px 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
-  
   .card-header h3 {
     margin: 0;
     font-family: 'Circular-Std', sans-serif;
-    font-weight: 100;
+    font-size: 1.2rem;
   }
   
   .card-body p {
@@ -35,4 +34,14 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+  @media (max-width: 768px) {
+    .card {
+      padding: 10px;
+      margin: 5px;
+    }
+  
+    .card-header h3 {
+      font-size: 1rem;
+    }
   }

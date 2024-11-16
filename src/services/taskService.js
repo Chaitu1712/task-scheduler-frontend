@@ -1,9 +1,14 @@
 
 import api from './api';
 
-export const getAllTasks = async () => {
-  const response = await api.get('/tasks');
-  return response.data;
+// Get all tasks with optional filters and sorting
+export const getAllTasks = (filters = {}) => {
+  const { status, deadline, desc } = filters;
+  let query = '?';
+  if (status) query += `status=${status}&`;
+  if (deadline) query += `deadline=${deadline}&`;
+  if (desc !== undefined) query += `desc=${desc}&`;
+  return api.get(`/tasks${query}`);
 };
 
 export const getTaskById = async (id) => {

@@ -5,12 +5,15 @@ import { getTaskById, deleteTask, updateTaskStatus,updateTask } from '../service
 import './TaskDetails.css'
 import { toast } from 'react-toastify';
 import UpdateTaskModal from '../components/Modal/UpdateTaskModal';
+import Loader from '../components/Loader/Loader';
+
 const TaskDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [task, setTask] = useState(null);
   const [status, setStatus] = useState(''); // Initialize as an empty string
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchTask = async () => {
       try {
@@ -19,6 +22,8 @@ const TaskDetails = () => {
         setStatus(data.status); // Set the status after task is fetched
       } catch (error) {
         console.error('Error fetching task:', error);
+      }finally {
+        setLoading(false);
       }
     };
     fetchTask();
@@ -65,17 +70,21 @@ const TaskDetails = () => {
       await updateTask(id, updatedTask);
       setTask(updatedTask); // Update the local state
       setShowModal(false); // Close the modal
-      toast.success('Task updated successfully!');
-      navigate('/'); // Redirect if necessary
+      toast.success('Task updated successfully!',{
+        position: 'bottom-left',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'colored',
+      }); // Success toast
     } catch (error) {
       console.error('Error updating task:', error);
     }
   };
 
-  if (!task){
-      return <p>Loading...</p>;
-
-    }
+  if (loading) return <Loader />;
 
   return (
     <div>
@@ -85,6 +94,7 @@ const TaskDetails = () => {
       <div className='card-body'><p>{task.description}</p></div>
       <div className='footer'>
         <div className='status'>
+          <p>ID: {task.id}</p>
           <p>Status:
             <select value={status} onChange={(e) => handleStatusUpdate(e.target.value)}>
               <option value="PENDING">Pending</option>
@@ -101,9 +111,7 @@ const TaskDetails = () => {
         </div>
       </div>
     </div>
-    {showModal && (<UpdateTaskModal task={task}  onClose={() => setShowModal(false)}  onUpdate={handleTaskUpdate}
-        />
-      )}
+    {showModal && (<UpdateTaskModal task={task}  onClose={() => setShowModal(false)}  onUpdate={handleTaskUpdate}/>)}
     </div>
   );
 };

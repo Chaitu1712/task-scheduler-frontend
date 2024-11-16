@@ -4,10 +4,10 @@ import Card from '../components/Card/Card';
 import './Notifications.css';
 import Button from '../components/Button/Button';
 import { toast } from 'react-toastify';
-
+import Loader from '../components/Loader/Loader';
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
-
+  const[loading,setLoading]=useState(true);
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
@@ -15,6 +15,8 @@ const Notifications = () => {
         setNotifications(data);
       } catch (error) {
         console.error('Error fetching notifications:', error);
+      }finally {
+        setLoading(false);
       }
     };
     fetchNotifications();
@@ -56,7 +58,7 @@ const Notifications = () => {
         />
       ));
   };
-
+  if(loading) return <Loader />;
   return (
     <div>
       <h2>Notifications</h2>

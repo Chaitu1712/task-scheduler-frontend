@@ -40,7 +40,9 @@
     padding: 10px 10px;
     transition: all 0.2s ease-in-out;
   }
+  @media(max-width:1440px) and (min-width:1024px) {
   .nav a:hover {
     background-color: white;
     color: #007bff;
+  }
   }
