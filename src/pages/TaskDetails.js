@@ -15,6 +15,7 @@ const TaskDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    document.title = `Task ${id}`;
     const fetchTask = async () => {
       try {
         const data = await getTaskById(id);

@@ -16,6 +16,7 @@ const Dashboard = () => {
   const [deadline, setDeadline] = useState('');
   const [desc, setDesc] = useState(false);
   useEffect(() => {
+    document.title = 'Task Scheduler';
     const fetchTasks = async () => {
       try {
         const filters = { status, deadline, desc };

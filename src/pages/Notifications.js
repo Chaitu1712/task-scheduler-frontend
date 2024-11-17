@@ -1,50 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { getAllNotifications, markNotificationAsRead } from '../services/notificationService';
+import React, { useEffect } from 'react';
+import { useNotifications } from '../NotificationProvider'; // Use the NotificationProvider
 import Card from '../components/Card/Card';
 import './Notifications.css';
 import Button from '../components/Button/Button';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader/Loader';
+import { markNotificationAsRead } from '../services/notificationService';
+
 const Notifications = () => {
-  const [notifications, setNotifications] = useState([]);
-  const[loading,setLoading]=useState(true);
+  const { notifications, markAsRead } = useNotifications(); // Access global notifications and fetch logic
+  const [loading, setLoading] = React.useState(true);
+
   useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const data = await getAllNotifications();
-        setNotifications(data);
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-      }finally {
-        setLoading(false);
-      }
-    };
-    fetchNotifications();
+    document.title = 'Notifications';
+    setLoading(false); // Assume notifications are already fetched by the provider
   }, []);
+
 
   const handleMarkAsRead = async (id) => {
     try {
-      await markNotificationAsRead(id);
-      const updatedNotifications = notifications.map((notification) => {
-        if (notification.id === id) {
-          notification.status = 'READ';
-        }
-        toast.success('Notification marked as read successfully!',{
-          position: 'bottom-left',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: 'colored',
-        }); // Success toast
-        return notification;
+      await markNotificationAsRead(id); // Call the API to mark as read
+      markAsRead(id); // Refresh the context state
+      toast.success('Notification marked as read successfully!', {
+        position: 'bottom-left',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'colored',
       });
-      setNotifications(updatedNotifications);
     } catch (error) {
       console.error('Error marking notification as read:', error);
     }
-  }
+  };
 
   const renderNotification = (status) => {
     return notifications
@@ -53,12 +42,23 @@ const Notifications = () => {
         <Card
           key={notification.id}
           title={notification.message}
-          footer={notification.status==='UNREAD'?<Button text="Mark as Read" variant="secondary" onClick={() => handleMarkAsRead(notification.id)}/>:""}
+          footer={
+            notification.status === 'UNREAD' ? (
+              <Button
+                text="Mark as Read"
+                variant="secondary"
+                onClick={() => handleMarkAsRead(notification.id)}
+              />
+            ) : (
+              ''
+            )
+          }
           description={''}
         />
       ));
   };
-  if(loading) return <Loader />;
+
+  if (loading) return <Loader />;
   return (
     <div>
       <h2>Notifications</h2>

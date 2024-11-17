@@ -27,6 +27,15 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
       }
       const newTask = { title, description, deadline, priority};
       const createdTask = await createTask(newTask);
+      toast.success('Task created successfully!', {
+        position: 'bottom-left',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'colored',
+      });
       onTaskCreated(createdTask); // Update the parent with the new task
     } catch (error) {
       console.error('Error creating task:', error);
