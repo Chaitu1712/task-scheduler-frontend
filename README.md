@@ -1,70 +1,95 @@
-# Getting Started with Create React App
+# **Task Scheduler Frontend**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend implementation of the Task Scheduler Application, built using React and integrated with a Spring Boot backend. The frontend provides an intuitive interface for managing tasks, including a dashboard, task details view, and notifications.
+* * *
+## **Features**
+-	**Dashboard**: Displays an overview of all tasks with filtering and sorting options.
+-	**Task** Details: View and edit details of individual tasks.
+-	**Notifications**: View notifications for rescheduled or completed tasks.
+-	**Create and Update Tasks**: Add new tasks and modify existing ones.
+-	**Mark Notifications as Read**: Manage your notifications.
+* * *
+## **Tech Stack**
+-	Frontend Framework: React
+-	Routing: React Router v6
+-	Styling: CSS (or any styling library/framework you've used)
+-	Backend API Integration: Axios
+-	State Management: React Hooks (State and Context API, if applicable)
+* * *
+## **Project Structure**
 
-## Available Scripts
+    src/
+    ├── api/                # API service functions for backend integration
+    ├── components/         # Reusable React components (e.g., Button, InputField, Modal)
+    ├── pages/              # Page components for Dashboard, Task Details, Notifications
+    ├── styles/             # CSS files for styling (optional if using CSS-in-JS)
+    ├── App.js              # Main app component with routing setup
+    ├── index.js            # Entry point for the React application
+    └── README.md           # Project documentation
+* * *
+## **Prerequisites**
+Before running the project, ensure you have the following installed:
+-	Node.js (v16 or later)
+-	npm or yarn
+* * *
+## **Setup and Installation**
+### **1.	Clone the repository:**
+    git clone <repository-url>
+    cd task-scheduler-frontend
+### **2.	Install dependencies:**
+    npm install
+#### or
+    yarn install
+### **3.	Configure the API base URL:**
+- In src/api/axiosInstance.js (or wherever your Axios configuration resides), set the base URL to match your backend server's endpoint.
 
-In the project directory, you can run:
+      import axios from 'axios';
+      const api = axios.create({baseURL: 'http://localhost:8080/api', // Update with your backend API base URL});
+      export default api;
+### **4.	Start the development server:**
+    npm start
+#### or
+    yarn start
+The app will be available at http://localhost:3000.
+* * *
+## **Scripts**
+-	Start Development Server:
+```javascript        
+  npm start
+```      
+-	Build for Production:
 
-### `npm start`
+        npm run build
+-	Linting (if set up):
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+        npm run lint
+* * *
+### **API Integration**
+The frontend interacts with the backend via REST APIs. The following endpoints are used:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+| Endpoint |	Method |	Description |
+| --- | --- | --- |
+| /tasks |	GET	| Fetch all tasks|
+| /tasks/{id} |	GET |	Fetch task by ID|
+| /tasks |	POST	| Create a new task|
+| /tasks/{id} |	PUT	| Update a task|
+| /tasks/{id}/status |	PATCH	| Update task status|
+| /notifications |	GET	| Fetch all notifications|
+| /notifications/{id}/read |	PUT	| Mark notification as read|
+* * *
+### **Contributing**
+1.	Fork the repository.
+2.	Create a new branch for your feature:
 
-### `npm test`
+        git checkout -b feature-name  
+3.	Commit your changes:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+        git commit -m "Description of changes"
+4.	Push to your branch:
 
-### `npm run build`
+        git push origin feature-name
+5.	Submit a pull request.
+* * *
+### **License**
+This project is licensed under the MIT License.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
