@@ -56,9 +56,9 @@ The app will be available at http://localhost:3000.
 * * *
 ## **Scripts**
 -	Start Development Server:
-```javascript        
-  npm start
-```      
+       
+        npm start
+     
 -	Build for Production:
 
         npm run build
