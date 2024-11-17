@@ -19,13 +19,15 @@ This is the frontend implementation of the Task Scheduler Application, built usi
 ## **Project Structure**
 
     src/
-    ├── api/                # API service functions for backend integration
-    ├── components/         # Reusable React components (e.g., Button, InputField, Modal)
-    ├── pages/              # Page components for Dashboard, Task Details, Notifications
-    ├── styles/             # CSS files for styling (optional if using CSS-in-JS)
-    ├── App.js              # Main app component with routing setup
-    ├── index.js            # Entry point for the React application
-    └── README.md           # Project documentation
+    ├── api/                 # API service functions for backend integration
+    ├── components/          # Reusable React components (e.g., Button, InputField, Modal)
+    ├── pages/               # Page components for Dashboard, Task Details, Notifications
+    ├── App.css              # Styling for main app component
+    ├── App.js               # Main app component with routing setup
+    ├── index.css            # Custom Fonts for all styling pages
+    ├── index.js             # Entry point for the React application
+    ├── NotificationProvider # Global Notifications Updater and provider
+    └── README.md            # Project documentation
 * * *
 ## **Prerequisites**
 Before running the project, ensure you have the following installed:
