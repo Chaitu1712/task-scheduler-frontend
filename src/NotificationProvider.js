@@ -15,25 +15,26 @@ export const NotificationProvider = ({ children }) => {
   const [newNotifications, setNewNotifications] = useState([]);
 
   const fetchNotifications = async () => {
+    const userId = localStorage.getItem('userId');
     try {
-          const data = await getAllNotifications();
-          setNotifications(data);
-        // Filter new notifications
-        const newNotifs = data.filter(
-          (notif) => !notifications.some((existing) => existing.id === notif.id)
-        );
+      const data = await getAllNotifications(userId);
+      setNotifications(data);
+      // Filter new notifications
+      const newNotifs = data.filter(
+        (notif) => !notifications.some((existing) => existing.id === notif.id)
+      );
 
-        if (newNotifs.length > 0) {
-          setNotifications((prev) => [...newNotifs, ...prev]);
-          setNewNotifications(newNotifs);
+      if (newNotifs.length > 0) {
+        setNotifications((prev) => [...newNotifs, ...prev]);
+        setNewNotifications(newNotifs);
 
-          // Show toast for each new notification
-          newNotifs.filter((notif) => notif.status === 'UNREAD').forEach((notif) => {
-            toast.info(`🔔 ${notif.message}`, { autoClose: 3000, theme: 'colored', closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true});
-          });
-        }
+        // Show toast for each new notification
+        newNotifs.filter((notif) => notif.status === 'UNREAD').forEach((notif) => {
+          toast.info(`🔔 ${notif.message}`, { autoClose: 3000, theme: 'colored', closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true});
+        });
+      }
       else ;
     } catch (error) {
       console.error('Error fetching notifications:', error);
@@ -49,9 +50,8 @@ export const NotificationProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Initial fetch and polling setup
     fetchNotifications();
-    const intervalId = setInterval(fetchNotifications, 60000);
+    const intervalId = setInterval(() => fetchNotifications(), 60000);
 
     return () => clearInterval(intervalId); // Cleanup on unmount
   });
