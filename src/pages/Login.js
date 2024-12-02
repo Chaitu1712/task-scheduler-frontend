@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { loginUser } from '../services/userService';
 import './Login.css';
@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await loginUser({ username, password });
-      const userId = response.data.userId;
+      const userId = response.userId;
       localStorage.setItem('userId', userId);
       toast.success(`Welcome ${username}!`, {
         position: 'bottom-left',
@@ -25,7 +25,7 @@ const Login = () => {
         draggable: true,
         theme: 'colored',
       });
-      navigate('/');
+      navigate('/dashboard');
     } catch (error) {
       toast.error('Invalid credentials', {
         position: 'bottom-left',
@@ -71,6 +71,7 @@ const Login = () => {
           </span>
         </div>
         <button type="submit">Login</button>
+        <p>Don't have an account? <Link to="/register">Register</Link></p>
       </form>
     </div>
   );

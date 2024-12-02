@@ -7,7 +7,6 @@ export const getAllNotifications = async () => {
 };
 
 export const markNotificationAsRead = async (id) => {
-  const userId = localStorage.getItem('userId');
-  const response = await api.patch(`/notifications/${userId}/${id}/read`);
+  const response = await api.patch(`/notifications/${id}/read`);
   return response.data;
 };

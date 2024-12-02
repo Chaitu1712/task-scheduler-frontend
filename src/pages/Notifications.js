@@ -6,16 +6,22 @@ import Button from '../components/Button/Button';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader/Loader';
 import { markNotificationAsRead } from '../services/notificationService';
+import { useNavigate } from 'react-router-dom';
 
 const Notifications = () => {
   const { notifications, markAsRead } = useNotifications(); // Access global notifications and fetch logic
   const [loading, setLoading] = React.useState(true);
+  const navigate = useNavigate();
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     document.title = 'Notifications';
-    setLoading(false); // Assume notifications are already fetched by the provider
-  }, []);
-
+    if (!userId) {
+      navigate('/login');
+    } else {
+      setLoading(false); // Assume notifications are already fetched by the provider
+    }
+  }, [userId, navigate]);
 
   const handleMarkAsRead = async (id) => {
     try {

@@ -29,8 +29,12 @@ const TaskDetails = () => {
         setLoading(false);
       }
     };
-    fetchTask();
-  }, [id]);
+    if (!userId) {
+      navigate('/login');
+    } else {
+      fetchTask();
+    }
+  }, [id, userId, navigate]);
 
   const handleDelete = async () => {
     try {

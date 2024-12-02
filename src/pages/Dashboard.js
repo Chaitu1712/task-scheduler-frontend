@@ -21,7 +21,12 @@ const Dashboard = () => {
     document.title = 'Task Scheduler';
     const fetchTasks = async () => {
       try {
-        const filters = { status, deadline, desc };
+        // Create a filter object only with non-empty values
+        const filters = {};
+        if (status) filters.status = status;
+        if (deadline) filters.deadline = deadline;
+        if (desc !== undefined) filters.sortByPriority = desc;
+
         const { data } = await getAllTasks(userId, filters);
         setTasks(data);
       } catch (error) {
@@ -30,8 +35,12 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
-    fetchTasks();
-  }, [status, deadline, desc]);
+    if (!userId) {
+      navigate('/login');
+    } else {
+      fetchTasks();
+    }
+  }, [status, deadline, desc, userId, navigate]);
 
   const handleCreateTask = async (createdTask) => {
     setShowModal(false);
@@ -76,21 +85,27 @@ const Dashboard = () => {
         <div></div>
         <p>Filter by Status:
           <select className='status' value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option value="">All Statuses</option>
+            <option value="">All</option>
             <option value="PENDING">Pending</option>
+            <option value="IN_PROGRESS">In Progress</option>
             <option value="OVERDUE">Overdue</option>
             <option value="COMPLETED">Completed</option>
           </select>
         </p>
         <p>Filter by Deadline:
           <select value={deadline} onChange={(e) => setDeadline(e.target.value)}>
-            <option value="">All Deadlines</option>
-            <option value="TODAY">Today</option>
-            <option value="TOMORROW">Tomorrow</option>
-            <option value="THIS_WEEK">This Week</option>
+            <option value="">All</option>
+            <option value="today">Today</option>
+            <option value="tomorrow">Tomorrow</option>
+            <option value="this_week">This Week</option>
+            <option value="next_week">Next Week</option>
           </select>
         </p>
-        <Button text={`Sort by Priority: ${desc ? 'High to Low' : 'Low to High'}`} variant="primary" onClick={() => setDesc((prev) => !prev)} />
+        <Button 
+          text={`Sort by Priority: ${desc ? 'High to Low' : 'Low to High'}`} 
+          variant="primary" 
+          onClick={() => setDesc((prev) => !prev)} 
+        />
       </div>
       {tasks.length === 0 && <p className='No-Tasks'>No tasks found</p>}
       {['PENDING', 'OVERDUE', 'COMPLETED'].map(renderTaskSection)}
