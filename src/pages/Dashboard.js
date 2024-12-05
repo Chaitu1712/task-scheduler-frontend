@@ -14,7 +14,6 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState('');
   const [deadline, setDeadline] = useState('');
-  const [desc, setDesc] = useState(false);
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
@@ -25,9 +24,8 @@ const Dashboard = () => {
         const filters = {};
         if (status) filters.status = status;
         if (deadline) filters.deadline = deadline;
-        if (desc !== undefined) filters.sortByPriority = desc;
 
-        const { data } = await getAllTasks(userId, filters);
+        const { data } = await getAllTasks(filters);
         setTasks(data);
       } catch (error) {
         console.error('Error fetching tasks:', error);
@@ -40,7 +38,7 @@ const Dashboard = () => {
     } else {
       fetchTasks();
     }
-  }, [status, deadline, desc, userId, navigate]);
+  }, [status, deadline, userId, navigate]);
 
   const handleCreateTask = async (createdTask) => {
     setShowModal(false);
@@ -64,6 +62,8 @@ const Dashboard = () => {
               title={task.title}
               description={task.description}
               priority={task.priority}
+              deadline={task.deadline}
+              status={task.status}
               footer={
                 <Button
                   text="View Details"
@@ -87,7 +87,6 @@ const Dashboard = () => {
           <select className='status' value={status} onChange={(e) => setStatus(e.target.value)}>
             <option value="">All</option>
             <option value="PENDING">Pending</option>
-            <option value="IN_PROGRESS">In Progress</option>
             <option value="OVERDUE">Overdue</option>
             <option value="COMPLETED">Completed</option>
           </select>
@@ -101,11 +100,6 @@ const Dashboard = () => {
             <option value="next_week">Next Week</option>
           </select>
         </p>
-        <Button 
-          text={`Sort by Priority: ${desc ? 'High to Low' : 'Low to High'}`} 
-          variant="primary" 
-          onClick={() => setDesc((prev) => !prev)} 
-        />
       </div>
       {tasks.length === 0 && <p className='No-Tasks'>No tasks found</p>}
       {['PENDING', 'OVERDUE', 'COMPLETED'].map(renderTaskSection)}

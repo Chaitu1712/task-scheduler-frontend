@@ -1,13 +1,12 @@
 import api from './api';
 
-// Get all tasks with optional filters and sorting
+// Get all tasks with optional filters
 export const getAllTasks = (filters = {}) => {
   const userId = localStorage.getItem('userId');
-  const { status, deadline, desc } = filters;
+  const { status, deadline } = filters;
   let query = '?';
   if (status) query += `status=${status}&`;
   if (deadline) query += `deadline=${deadline}&`;
-  if (desc !== undefined) query += `desc=${desc}&`;
   return api.get(`/tasks/${userId}${query}`);
 };
 

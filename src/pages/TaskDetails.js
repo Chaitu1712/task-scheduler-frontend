@@ -48,9 +48,18 @@ const TaskDetails = () => {
         draggable: true,
         theme: 'colored',
       });
-      navigate('/');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error deleting task:', error);
+      toast.error('Error deleting task. Please try again.', {
+        position: 'bottom-left',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'colored',
+      });
     }
   };
 
