@@ -9,11 +9,12 @@ import TaskDetails from './pages/TaskDetails';
 import Header from './components/Header/Header';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import { NotificationProvider } from './NotificationProvider';
 
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
-  const hideHeader = location.pathname === '/login' || location.pathname === '/register';
+  const hideHeader = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/';
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -52,7 +53,9 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <AppContent />
+      <NotificationProvider>
+        <AppContent />
+      </NotificationProvider>
     </Router>
   );
 }
