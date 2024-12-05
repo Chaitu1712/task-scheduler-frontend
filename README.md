@@ -8,6 +8,7 @@ This is the frontend implementation of the Task Scheduler Application, built usi
 -	**Notifications**: View notifications for rescheduled or completed tasks.
 -	**Create and Update Tasks**: Add new tasks and modify existing ones.
 -	**Mark Notifications as Read**: Manage your notifications.
+-	**User Authentication**: Login and register pages for user authentication.
 * * *
 ## **Tech Stack**
 -	Frontend Framework: React
@@ -21,7 +22,7 @@ This is the frontend implementation of the Task Scheduler Application, built usi
     src/
     ├── api/                 # API service functions for backend integration
     ├── components/          # Reusable React components (e.g., Button, InputField, Modal)
-    ├── pages/               # Page components for Dashboard, Task Details, Notifications
+    ├── pages/               # Page components for Dashboard, Task Details, Notifications, Login, Register
     ├── App.css              # Styling for main app component
     ├── App.js               # Main app component with routing setup
     ├── index.css            # Custom Fonts for all styling pages
@@ -43,7 +44,7 @@ Before running the project, ensure you have the following installed:
 #### or
     yarn install
 ### **3.	Configure the API base URL:**
-- In src/api/axiosInstance.js (or wherever your Axios configuration resides), set the base URL to match your backend server's endpoint.
+- In `src/services/api.js`, set the base URL to match your backend server's endpoint.
 
       import axios from 'axios';
       const api = axios.create({baseURL: 'http://localhost:8080/api', // Update with your backend API base URL});
@@ -78,6 +79,9 @@ The frontend interacts with the backend via REST APIs. The following endpoints a
 | /tasks/{id}/status |	PATCH	| Update task status|
 | /notifications |	GET	| Fetch all notifications|
 | /notifications/{id}/read |	PUT	| Mark notification as read|
+| /users/register |	POST	| Register a new user|
+| /users/login |	POST	| Login a user|
+| /users/logout |	POST	| Logout a user|
 * * *
 ### **Contributing**
 1.	Fork the repository.
