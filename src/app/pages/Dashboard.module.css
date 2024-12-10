@@ -3,22 +3,22 @@
     font-family: Arial, sans-serif;
   }
   
-.header {
+  .header {
     text-align: center;
     margin-bottom: 20px;
-}
+  }
   
-.taskSection {
+  .taskSection {
     margin-bottom: 40px;
-}
+  }
   
-.taskGrid {
+  .taskGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(450px, 450px));
     gap: 15px;
-}
+  }
   
-.filterControls {
+  .filterControls {
     width: 97.9%;
     display: flex;
     justify-content: space-around;
@@ -27,11 +27,11 @@
     margin-left: 10px;
     font-family: 'Poppins-Regular', sans-serif;
     align-items: center;
-}
-.filterControls p{
+  }
+  .filterControls p{
     font-size: 16px;
-}
-.filterControls select{
+  }
+  .filterControls select{
     margin: 10px;
     padding: 10px 15px;
     font-size: 16px;
@@ -40,23 +40,24 @@
     cursor: pointer;
     font-family: 'Quicksand-Bold', sans-serif;
     font-weight: 800;
-}
+  }
   
   /* For smaller screens */
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
     .taskGrid {
       grid-template-columns: 1fr;
     }
-}
-
-.card:hover {
+  }
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-  
-.noTasks{
+  }
+  .NoTasks {
     text-align: center;
     font-size: 20px;
     font-family: 'Poppins-Regular', sans-serif;
     margin-top: 20px;
-}
+  }

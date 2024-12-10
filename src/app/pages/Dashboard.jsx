@@ -1,15 +1,17 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import Card from '../components/Card/Card';
 import Button from '../components/Button/Button';
 import { getAllTasks } from '../services/taskService';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import CreateTaskModal from '../components/Modal/CreateTaskModal';
 import Loader from '../components/Loader/Loader';
 import styles from './Dashboard.module.css';
 import { toast } from 'react-toastify';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -34,11 +36,11 @@ const Dashboard = () => {
       }
     };
     if (!userId) {
-      navigate('/login');
+      router.push('/login');
     } else {
       fetchTasks();
     }
-  }, [statusFilter, deadlineFilter, userId, navigate]);
+  }, [statusFilter, deadlineFilter, userId, router]);
 
   const handleCreateTask = async (createdTask) => {
     setShowModal(false);
@@ -54,7 +56,7 @@ const Dashboard = () => {
 
     return (
       <div key={status}>
-        <h3>{status.charAt(0).toLowerCase() + status.slice(1)} Tasks</h3>
+        <h3>{status} TASKS</h3>
         <div className={styles.taskGrid}>
           {filteredTasks.map((task) => (
             <Card
@@ -65,10 +67,7 @@ const Dashboard = () => {
               deadline={task.deadline}
               status={task.status}
               footer={
-                <Button
-                  text="View Details"
-                  variant="primary"
-                  onClick={() => navigate(`/tasks/${task.id}`)}
+                <Button  text="View Details" variant="primary" onClick={() => router.push(`/tasks/${task.id}`)}
                 />
               }
             />
@@ -81,12 +80,8 @@ const Dashboard = () => {
   return (
     <div>
       <div className={styles.filterControls}>
-        <Button
-          text="Create New Task"
-          variant="primary"
-          onClick={() => setShowModal(true)}
-        />
-        <div>
+        <Button text="Create New Task" variant="primary" onClick={() => setShowModal(true)}/>
+        <div></div>
           <p>
             Filter by Status:
             <select
@@ -112,7 +107,6 @@ const Dashboard = () => {
               <option value="next_week">Next Week</option>
             </select>
           </p>
-        </div>
       </div>
       {tasks.length === 0 && <p className={styles.NoTasks}>No tasks found</p>}
       {['PENDING', 'OVERDUE', 'COMPLETED'].map(renderTaskSection)}

@@ -27,7 +27,7 @@ const Login = () => {
         draggable: true,
         theme: 'colored',
       });
-      router.replace('/dashboard');
+      router.push('/dashboard');  // Changed from router.replace
     } catch (error) {
       toast.error('Invalid credentials', {
         position: 'bottom-left',
@@ -77,7 +77,7 @@ const Login = () => {
           Don't have an account?{' '}
           <a href="#" onClick={(e) => {
             e.preventDefault();
-            router.replace('/register');
+            router.push('/register');  // Changed from router.replace
           }}>
             Register
           </a>

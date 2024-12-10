@@ -29,7 +29,7 @@ const Header = () => {
             Notifications
           </div>
         </Link>
-        <div onClick={handleLogout} className={styles.navLogout}>
+        <div onClick={handleLogout} className={styles.nav_logout}>
           Logout
         </div>
       </div>
