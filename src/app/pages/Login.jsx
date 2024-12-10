@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { loginUser } from '../services/userService';
 import styles from './Login.module.css';
@@ -25,7 +27,7 @@ const Login = () => {
         draggable: true,
         theme: 'colored',
       });
-      router.push('/dashboard');
+      router.replace('/dashboard');
     } catch (error) {
       toast.error('Invalid credentials', {
         position: 'bottom-left',
@@ -73,7 +75,10 @@ const Login = () => {
         <button type="submit">Login</button>
         <p>
           Don't have an account?{' '}
-          <a href="#" onClick={() => router.push('/register')}>
+          <a href="#" onClick={(e) => {
+            e.preventDefault();
+            router.replace('/register');
+          }}>
             Register
           </a>
         </p>

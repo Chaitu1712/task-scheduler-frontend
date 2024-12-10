@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { registerUser } from '../services/userService';
 import styles from './Register.module.css';

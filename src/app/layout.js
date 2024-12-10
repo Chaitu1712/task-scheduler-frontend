@@ -1,26 +1,16 @@
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { NotificationProvider } from './NotificationProvider';
-import Header from './components/Header/Header';
-import { headers } from 'next/headers';
+import HeaderWrapper from './components/Header/HeaderWrapper';
+import ClientToastContainer from './components/ClientToastContainer';
 
-export default function RootLayout({ children }) {
-  const headersList = headers();
-  const pathname = headersList.get('x-pathname') || '';
-  const hideHeader = pathname === '/login' || pathname === '/register' || pathname === '/';
-
+export default async function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning>
         <NotificationProvider>
           <div className="App">
-            {!hideHeader && (
-              <div className='header-div'>
-                <Header/>
-              </div>
-            )}
+            <HeaderWrapper />
             {children}
-            <ToastContainer />
+            <ClientToastContainer />
           </div>
         </NotificationProvider>
       </body>
