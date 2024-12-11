@@ -17,7 +17,20 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('');
   const [deadlineFilter, setDeadlineFilter] = useState('');
-  const userId = localStorage.getItem('userId');
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    // Check for localStorage availability
+    if (typeof window !== 'undefined') {
+      const storedUserId = localStorage.getItem('userId');
+      setUserId(storedUserId);
+      
+      if (!storedUserId) {
+        router.push('/login');
+        return;
+      }
+    }
+  }, [router]);
 
   useEffect(() => {
     document.title = 'Task Scheduler';
@@ -30,17 +43,16 @@ const Dashboard = () => {
         const { data } = await getAllTasks(filters);
         setTasks(data);
       } catch (error) {
-        console.error('Error fetching tasks:', error);
+        console.error('Error fetching tasks:', error.message);
       } finally {
         setLoading(false);
       }
     };
-    if (!userId) {
-      router.push('/login');
-    } else {
+    
+    if (userId) {
       fetchTasks();
     }
-  }, [statusFilter, deadlineFilter, userId, router]);
+  }, [statusFilter, deadlineFilter, userId]);
 
   const handleCreateTask = async (createdTask) => {
     setShowModal(false);
@@ -67,7 +79,10 @@ const Dashboard = () => {
               deadline={task.deadline}
               status={task.status}
               footer={
-                <Button  text="View Details" variant="primary" onClick={() => router.push(`/tasks/${task.id}`)}
+                <Button 
+                  text="View Details" 
+                  variant="primary" 
+                  onClick={() => router.push(`/task/${task.id}`)}
                 />
               }
             />

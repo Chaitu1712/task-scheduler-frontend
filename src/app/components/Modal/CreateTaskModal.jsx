@@ -45,7 +45,7 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
-        <h2>Create New Task</h2>
+        <h2 className={styles.h2}>Create New Task</h2>
         <InputField label="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
         <InputField label="Description" value={description} onChange={(e) => setDescription(e.target.value)}/>
         <InputField label="Deadline" type="datetime-local" value={deadline} onChange={(e) => setDeadline(e.target.value)}/>

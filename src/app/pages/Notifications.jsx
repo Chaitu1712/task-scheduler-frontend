@@ -1,25 +1,31 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { toast } from 'react-toastify';
 import { useNotifications } from '../NotificationProvider';
 import { useRouter } from 'next/navigation';
-import toast from 'react-toastify';
 import styles from './Notifications.module.css';
 import {markNotificationAsRead} from '../services/notificationService';
+import Loader from '../components/Loader/Loader';
+import Card from '../components/Card/Card';
+import Button from '../components/Button/Button';
 
 const Notifications = () => {
   const { notifications, markAsRead } = useNotifications();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const userId = localStorage.getItem('userId');
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     document.title = 'Notifications';
-    if (!userId) {
-      navigate('/login');
+    const storedUserId = typeof window !== 'undefined' ? localStorage.getItem('userId') : null;
+    setUserId(storedUserId);
+    
+    if (!storedUserId) {
+      router.push('/login');
     } else {
-      setLoading(false); // Assume notifications are already fetched by the provider
+      setLoading(false);
     }
-  }, [userId, navigate]);
+  }, [router]);
 
   const handleMarkAsRead = async (id) => {
     try {
@@ -39,9 +45,16 @@ const Notifications = () => {
     }
   };
 
-  const renderNotification = (status) => {
+  const renderNotification = useCallback((status) => {
+    const seenIds = new Set();
     return notifications
-      .filter((notification) => notification.status === status)
+      .filter((notification) => {
+        if (notification.status === status && !seenIds.has(notification.id)) {
+          seenIds.add(notification.id);
+          return true;
+        }
+        return false;
+      })
       .map((notification) => (
         <Card
           key={notification.id}
@@ -60,15 +73,15 @@ const Notifications = () => {
           description={''}
         />
       ));
-  };
-  if (loading) return <div>Loading...</div>;
+  }, [notifications, handleMarkAsRead]);
+
   if (loading) return <Loader />;
   return (
     <div>
-      <h2>Notifications</h2>
-      <h3>Unread</h3>
+      <h2 className={styles.h2}>Notifications</h2>
+      <h3 className={styles.h3}>Unread</h3>
       {renderNotification('UNREAD')}
-      <h3>Read</h3>
+      <h3 className={styles.h3}>Read</h3>
       {renderNotification('READ')}
     </div>
   );

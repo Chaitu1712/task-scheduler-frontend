@@ -11,9 +11,16 @@ export const getAllTasks = (filters = {}) => {
 };
 
 export const getTaskById = async (id) => {
-  const userId = localStorage.getItem('userId');
-  const response = await api.get(`/tasks/${userId}/${id}`);
-  return response.data;
+  try {
+    const userId = localStorage.getItem('userId');
+    const response = await api.get(`/tasks/${userId}/${id}`);
+    if (!response.data) {
+      throw new Error('Task not found');
+    }
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to fetch task');
+  }
 };
 
 export const createTask = async (taskData) => {

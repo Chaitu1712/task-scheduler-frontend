@@ -1,42 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRouter } from 'next/router';
-import Button from '../components/Button/Button';
-import Card from '../components/Card/Card';
-import Loader from '../components/Loader/Loader';
-import UpdateTaskModal from '../components/Modal/UpdateTaskModal';
-import { getTaskById, deleteTask, updateTaskStatus, updateTask } from '../services/taskService';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter, useParams, notFound } from 'next/navigation';
+import Button from '../../components/Button/Button';
+import Loader from '../../components/Loader/Loader';
+import UpdateTaskModal from '../../components/Modal/UpdateTaskModal';
+import { getTaskById, deleteTask, updateTaskStatus, updateTask } from '../../services/taskService';
 import { toast } from 'react-toastify';
-import styles from './TaskDetails.module.css';
+import styles from './TaskDetail.module.css';
 
 const TaskDetails = () => {
-  const { id } = useParams();
   const router = useRouter();
+  const params = useParams();
+  const id = params.id;
   const [task, setTask] = useState(null);
   const [status, setStatus] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     const fetchTask = async () => {
+      if (!id) return;
       try {
         const data = await getTaskById(id);
         setTask(data);
         setStatus(data.status);
       } catch (error) {
         console.error('Error fetching task:', error);
+        notFound();
       } finally {
         setLoading(false);
       }
     };
 
+    const userId = localStorage.getItem('userId');
     if (!userId) {
       router.push('/login');
     } else {
       fetchTask();
     }
-  }, [id, userId, router]);
+  }, [id, router]);
 
   const handleDelete = async () => {
     try {
@@ -102,46 +105,35 @@ const TaskDetails = () => {
     }
   };
 
-  if (loading) return <Loader />;
+  if (!id || loading) return <Loader />;
+  if (!task) return null;
 
   return (
     <div>
-      <div className={styles.taskDetailsContainer}>
+      <div className={styles.card}>
         <h2>Task Details</h2>
-        <Card
-          title={task.title}
-          description={task.description}
-          priority={task.priority}
-          deadline={task.deadline}
-          status={task.status}
-          footer={
-            <Button
-              text="View Details"
-              variant="primary"
-              onClick={() => router.push(`/tasks/${task.id}`)}
-            />
-          }
-        />
-        <div className={styles.actions}>
-          <Button
-            text="Edit Task"
-            variant="secondary"
-            onClick={() => setShowModal(true)}
-          />
-          <Button
-            text="Delete Task"
-            variant="danger"
-            onClick={handleDelete}
-          />
+        <div className={styles.cardHeader}><h3>{task.title}</h3></div>
+        <div className={styles.cardBody}><p>{task.description}</p></div>
+        <div className={styles.footer}>
+          <div className={styles.status}>
+            <p>ID: {task.id}</p>
+            <p>Status:
+              <select value={status} onChange={(e) => handleStatusUpdate(e.target.value)}>
+                <option value="PENDING">Pending</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="OVERDUE" disabled>Overdue</option>
+              </select>
+            </p>
+            <p>Deadline:{task.deadline}</p>
+            <p>Priority:{task.priority}</p>
+          </div>
+          <div className={styles.cardFooter}>
+            <Button text="Edit Task" variant="secondary" onClick={() => setShowModal(true)} />
+            <Button text="Delete Task" variant="danger" onClick={handleDelete} />
+          </div>
         </div>
-        {showModal && (
-          <UpdateTaskModal
-            task={task}
-            onClose={() => setShowModal(false)}
-            onUpdate={handleTaskUpdate}
-          />
-        )}
       </div>
+      {showModal && (<UpdateTaskModal task={task} onClose={() => setShowModal(false)} onUpdate={handleTaskUpdate} />)}
     </div>
   );
 };
