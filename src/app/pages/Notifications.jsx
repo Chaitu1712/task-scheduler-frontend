@@ -27,7 +27,7 @@ const Notifications = () => {
     }
   }, [router]);
 
-  const handleMarkAsRead = async (id) => {
+  const handleMarkAsRead = useCallback(async (id) => {
     try {
       await markNotificationAsRead(id); // Call the API to mark as read
       markAsRead(id); // Refresh the context state
@@ -43,7 +43,7 @@ const Notifications = () => {
     } catch (error) {
       console.error('Error marking notification as read:', error);
     }
-  };
+  }, [markAsRead]);
 
   const renderNotification = useCallback((status) => {
     const seenIds = new Set();

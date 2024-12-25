@@ -24,20 +24,21 @@ export const NotificationProvider = ({ children }) => {
     const userId = localStorage.getItem('userId');
     try {
       const data = await getAllNotifications(userId);
-      setNotifications(data);
-      // Filter new notifications
-      const newNotifs = data.filter(
-        (notif) => !notifications.some((existing) => existing.id === notif.id)
-      );
-
-      if (newNotifs.length > 0) {
-        setNotifications((prev) => [...newNotifs, ...prev]);
-        setNewNotifications(newNotifs);
-      }
+      setNotifications(prevNotifications => {
+        // Filter new notifications using prevNotifications instead
+        const newNotifs = data.filter(
+          (notif) => !prevNotifications.some((existing) => existing.id === notif.id)
+        );
+        if (newNotifs.length > 0) {
+          setNewNotifications(newNotifs);
+          return [...newNotifs, ...prevNotifications];
+        }
+        return prevNotifications;
+      });
     } catch (error) {
       logger.error('Failed to fetch notifications:', error);
     }
-  }, [notifications]);
+  }, []); // Remove notifications from dependencies
 
   useEffect(() => {
     const interval = setInterval(fetchNotifications, pollingRate);
