@@ -32,7 +32,7 @@
     "wait-on": "^8.0.1"
   },
   "build": {
-    "appId": "com.example.task-scheduler",
+    "appId": "com.task-scheduler",
     "productName": "Task Scheduler",
     "files": [
       "build/**/*",
